@@ -41,9 +41,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Aria
 </div>
 
 <div class="hero">
-<div class="kicker">EST. 2026 • AOTEAROA • REAL BACKROOM + STRIPE</div>
+<div class="kicker">EST. 2026 • AOTEAROA • REAL BACKROOM + STRIPE + 75c FEE</div>
 <h1>wave<br>hello.</h1>
-<div class="sub">Real photo uploads → Supabase Storage. Real listings → Supabase DB. Real payments → Stripe Checkout. No fake puffers.</div>
+<div class="sub">Real photo uploads → Supabase Storage. Real listings → Supabase DB. Real payments → Stripe Checkout + 75c platform fee.</div>
 <div class="pill" id="statusPill">● Checking connection...</div>
 </div>
 
@@ -84,7 +84,7 @@ Supabase → Project Settings → Edge Functions → Secrets → Add: STRIPE_SEC
 <div id="empty" style="text-align:center;padding:40px;color:#999;display:none">No real listings yet — be first.</div>
 
 <div class="setup" style="margin-top:20px">
-<b>Edge Function code — create file: supabase/functions/create-checkout/index.ts</b><br>
+<b>Edge Function code — WITH 75c fee — create file: supabase/functions/create-checkout/index.ts</b><br>
 <textarea readonly style="width:100%;height:320px;font-size:11px;margin-top:8px">import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import Stripe from "https://esm.sh/stripe@14.18.0?target=deno"
 
@@ -113,7 +113,7 @@ serve(async (req)=>{
 <div style="font-size:12px;margin-top:6px">Deploy: supabase functions deploy create-checkout --no-verify-jwt (or deploy via dashboard)</div>
 </div>
 
-<div style="text-align:center;padding:30px;color:#999;font-size:11px">© 2026 Wave Hello • Real Supabase + Stripe • Auckland</div>
+<div style="text-align:center;padding:30px;color:#999;font-size:11px">© 2026 Wave Hello • Real Supabase + Stripe • Auckland • 75c fee</div>
 </div>
 
 <script type="module">
@@ -133,7 +133,7 @@ async function init(){
   const {url,key}=getKeys();
   if(!url||!key){pill.textContent='● Not connected — setup needed';setupBox.style.display='block';return;}
   setupBox.style.display='none';supabase=createClient(url,key);
-  pill.textContent='● Connected — real Supabase + Stripe ready';pill.style.background='rgba(46,229,157,0.15)';
+  pill.textContent='● Connected — real Supabase + Stripe + 75c fee ready';pill.style.background='rgba(46,229,157,0.15)';
   await loadListings();
 }
 function esc(s){return (s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -148,12 +148,12 @@ window.loadListings=async()=>{
     <div class="card">
       <img src="${l.image_url||'https://via.placeholder.com/400x300?text=No+Photo'}" loading="lazy">
       <div class="card-body">
-        <div style="display:flex;justify-content:space-between"><b>${esc(l.title)}</b><span class="price">$${l.price}</span></div>
+        <div style="display:flex;justify-content:space-between"><b>${esc(l.title)}</b><span class="price">$${l.price} + 75c</span></div>
         <div class="meta">${esc(l.region||'')} • ${esc(l.category||'')}</div>
         <div style="font-size:13px;color:#555;margin-top:6px">${esc((l.description||'').slice(0,100))}</div>
         <div class="buyRow">
           <button class="btn2" onclick="contactSeller('${esc(l.title)}')">Message</button>
-          <button class="btn" onclick="buyNow('${esc(l.title).replace(/'/g,"\\'")}', ${l.price})">Buy with Stripe</button>
+          <button class="btn" onclick="buyNow('${esc(l.title).replace(/'/g,"'")}', ${l.price})">Buy with Stripe</button>
         </div>
       </div>
     </div>
@@ -187,7 +187,7 @@ window.buyNow=async(title,price)=>{
   if(!supabase){alert('Connect Supabase first');return;}
   const btn=event.target;const orig=btn.textContent;btn.textContent='Opening Stripe...';btn.disabled=true;
   try{
-    const {data,error}=await supabase.functions.invoke('create-checkout',{body:{title,price}});
+    const {data,error}=await supabase.functions.invoke('swift-worker',{body:{title,price}});
     if(error) throw error;
     if(data?.url){window.location.href=data.url;} else if(data?.error){throw new Error(data.error)} else {throw new Error('No checkout URL')}
   }catch(e){alert('Stripe error: '+e.message+'\n\nIf you have not deployed the edge function yet, buy button will not work. Follow setup box instructions.');}
@@ -195,7 +195,7 @@ window.buyNow=async(title,price)=>{
 }
 window.contactSeller=(t)=>{window.location.href='mailto:hello@wavehello.co.nz?subject=About '+encodeURIComponent(t)}
 init();
-if(new URLSearchParams(location.search).get('success')){alert('Payment successful! Seller will be notified. Ka pai!')}
+if(new URLSearchParams(location.search).get('success')){alert('Payment successful! Seller will be notified. Ka pai! Includes 75c platform fee.')}
 </script>
 </body>
 </html>
