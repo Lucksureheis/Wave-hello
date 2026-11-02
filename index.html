@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Wave Hello Shop — NZ's new marketplace. Buy & sell in Aotearoa. 75c to list, 75c when sold. First 5 listings free. The Trade Me alternative. NEW tropical island background">
+<title>Wave Hello Shop — NZ's new marketplace</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;min-height:100vh;color:#0A1931;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background: url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;filter:brightness(1.08) saturate(1.15) contrast(1.02)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(255,248,231,0.62) 0%,rgba(255,255,255,0.55) 42%,rgba(255,255,255,0.78) 100%)}
+.header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid #E5E7EB;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.logo{font-weight:900;color:#0066FF;font-size:18px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{border:none;padding:7px 12px;border-radius:999px;font-weight:700;font-size:13px;background:#F3F4F6;cursor:pointer}
+.tab.active{background:#0066FF;color:white}
+.topbar{font-size:11px;letter-spacing:1px;color:#0066FF;font-weight:800;padding:6px 16px;background:rgba(255,255,255,0.7);text-align:center}
+.hero{display:grid;grid-template-columns:1.2fr 0.8fr;gap:16px;padding:20px 16px;max-width:1100px;margin:0 auto}
+@media(max-width:700px){.hero{grid-template-columns:1fr}}
+.hleft h1{font-size:28px;line-height:1.1;font-weight:900;text-shadow:0 1px 2px rgba(255,255,255,0.8)}
+.hleft h1 span{color:#0066FF}
+.hleft p{margin-top:10px;color:#1F2937;font-size:14px;line-height:1.4;background:rgba(255,255,255,0.7);padding:8px;border-radius:8px}
+.btns{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;font-size:13px;cursor:pointer}
+.primary{background:#0066FF;color:white}
+.secondary{background:white;border:1px solid #D1D5DB}
+.card{background:rgba(255,255,255,0.92);border-radius:16px;border:1px solid #E5E7EB;padding:14px;box-shadow:0 4px 16px rgba(0,0,0,0.08);backdrop-filter:blur(8px)}
+.small{font-size:12px;color:#6B7280}
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.comp{border-radius:12px;padding:10px;border:1px solid #E5E7EB;background:rgba(255,255,255,0.9)}
+.comp.good{background:#EFF6FF;border-color:#BFDBFE}
+.search{max-width:1100px;margin:16px auto;padding:0 16px}
+.search input{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #D1D5DB;font-size:14px;background:rgba(255,255,255,0.9)}
+.cats{display:flex;gap:8px;overflow:auto;padding:12px 16px;max-width:1100px;margin:0 auto}
+.cat{white-space:nowrap;padding:6px 12px;border-radius:999px;border:1px solid #D1D5DB;background:rgba(255,255,255,0.9);font-size:12px;font-weight:700;cursor:pointer}
+.cat.active{background:#0066FF;color:white;border-color:#0066FF}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px;max-width:1100px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+.item{background:rgba(255,255,255,0.92);border-radius:16px;overflow:hidden;border:1px solid #E5E7EB;backdrop-filter:blur(4px)}
+.item-top{height:120px;display:flex;align-items:center;justify-content:center;font-size:36px}
+.pill{font-size:10px;padding:2px 8px;border-radius:999px;background:#FEF3C7;font-weight:700}
+.chatbar{background:#0A1931;color:white;border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">🌊 Wave Hello Shop</div>
+  <div class="tabs">
+    <button class="tab active">Shop</button>
+    <button class="tab">Chat • 2</button>
+    <button class="tab">My Listings</button>
+    <button class="tab">Orders</button>
+  </div>
+</div>
+<div class="topbar">NZ'S NEW MARKETPLACE • TROPICAL ISLAND • SANDCASTLE BEACH • WHOLE BACKGROUND</div>
+
+<div class="hero">
+  <div class="hleft">
+    <h1>Wave Hello Shop — <span>NZ's new marketplace.</span> Buy & sell in Aotearoa.</h1>
+    <p>The Trade Me alternative — <b>75c to list, 75c when sold. First 5 listings FREE.</b> Now with Vintage, Jewelry, Puffer, Streetwear, Accessories, Footwear — tropical island lagoon background with sandcastle!</p>
+    <div class="btns">
+      <button class="btn primary">Browse listings →</button>
+      <button class="btn secondary">+ List vintage or jewelry</button>
+    </div>
+  </div>
+  <div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between"><b style="font-size:12px">WHY SELLERS ARE SWITCHING</b><span class="small">Save $ on fees</span></div>
+      <div class="comparison">
+        <div class="comp"><div class="small">TRADE ME • 7.9%</div><div style="font-size:11px">$20 jacket example</div><div style="font-weight:900;margin-top:6px">Sarah gets<br>$17.92</div><div class="small">-$2.08 in fees</div></div>
+        <div class="comp good"><div class="small">WAVE HELLO • $1.50 FLAT</div><div style="font-size:11px">$20 jacket example</div><div style="font-weight:900;margin-top:6px;color:#0066FF">Sarah gets<br>$18.60</div><div class="small">75c + 75c sold</div></div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap"><span class="pill">Vintage</span><span class="pill">Jewelry</span><span class="pill">Puffer</span><span class="pill">Tropical Island BG</span></div>
+      <div class="chatbar"><span>💬 Chat is included on this site. Vintage, jewelry, meet at the beach.</span><button class="btn secondary" style="padding:6px 12px;font-size:11px">Open Chat</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="search"><input placeholder="Search vintage, jewelry, puffer, shells..."></div>
+<div class="cats">
+  <button class="cat active">All</button>
+  <button class="cat">Streetwear</button>
+  <button class="cat">Puffer</button>
+  <button class="cat">Vintage</button>
+  <button class="cat">Jewelry</button>
+  <button class="cat">Accessories</button>
+  <button class="cat">Footwear</button>
+  <button class="cat">Home</button>
+  <button class="cat">Tech</button>
+  <button class="cat">Other</button>
+</div>
+
+<div class="grid">
+  <div class="item"><div class="item-top" style="background:linear-gradient(135deg,#FFD93D,#FF6B6B)">🧥</div><div style="padding:8px"><span class="pill">Puffer</span><div style="font-weight:800;font-size:13px;margin-top:4px">North Face Puffer</div><div class="small">$76.50 • Auckland</div></div></div>
+  <div class="item"><div class="item-top" style="background:linear-gradient(135deg,#E8D5B7,#C9A86A)">📿</div><div style="padding:8px"><span class="pill">Jewelry</span><div style="font-weight:800;font-size:13px;margin-top:4px">Gold Shell Necklace</div><div class="small">$45 • Vintage</div></div></div>
+  <div class="item"><div class="item-top" style="background:linear-gradient(135deg,#FFF3CD,#D4AF37)">💍</div><div style="padding:8px"><span class="pill">Jewelry</span><div style="font-weight:800;font-size:13px;margin-top:4px">Pearl Studs</div><div class="small">$28 • Jewelry</div></div></div>
+  <div class="item"><div class="item-top" style="background:linear-gradient(135deg,#6B7280,#374151)">👖</div><div style="padding:8px"><span class="pill">Vintage</span><div style="font-weight:800;font-size:13px;margin-top:4px">Vintage Denim</div><div class="small">$55 • Vintage</div></div></div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://dptzjshzhvzcrhxmxilf.supabase.co";
+const SUPABASE_ANON = "YOUR_ANON_KEY_HERE";
+</script>
+</body>
+</html>
