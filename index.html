@@ -92,15 +92,24 @@ section div{font-size:13px}
 <div class="chatbar"><span>Chat</span><button class="btn w" style="padding:7px 12px" onclick="toast('Open Chat')">Chat</button></div>
 <section id="sec-chat"><h3>Chat</h3><div>2 conversations • Reply in app</div><div style="margin-top:8px;display:flex;gap:8px"><button class="btn f" onclick="toast('Opening Chat')">Open</button><button class="btn w" onclick="toast('Mark read')">Read</button></div></section>
 <section id="sec-list"><h3>My Listings</h3><div>0 active listings</div><button class="btn f" style="margin-top:8px" onclick="toast('Create listing')">+ New</button></section>
-<section id="sec-orders"><h3>Orders</h3><div>No orders yet</div><button class="btn w" style="margin-top:8px" onclick="toast('View orders')">View</button></section>
-<div class="foot">Wave Hello Shop • Fixed beach BG • No base64 • External URL only</div>
-</main>
-<div class="toast" id="t"></div>
+<section id="sec-orders"><h3>Orders</h3><div>No orders yet</div><button class="btn w" style="margin-top:8px" onclick="toast('View orders')">View</button></section> 
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
 <script>
-function toast(m){let e=document.getElementById('t');e.textContent=m;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(()=>e.style.display='none',2200)}
-document.querySelectorAll('.tab').forEach(x=>x.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(y=>y.classList.remove('active'));x.classList.add('active');toast(x.textContent+' tab');go(x.dataset.t)}));
-document.querySelectorAll('.cat').forEach(c=>c.addEventListener('click',()=>{document.querySelectorAll('.cat').forEach(k=>k.classList.remove('on'));c.classList.add('on');toast('Category '+c.textContent)}));
-function go(t){if(t==='shop')window.scrollTo({top:0,behavior:'smooth'});else{let el=document.getElementById('sec-'+t);if(el)el.scrollIntoView({behavior:'smooth'})}toast(t+' clicked')}
+const SUPABASE_URL="https://dptzjshzhvzcrhxmxilf.supabase.co";
+const SUPABASE_ANON="sb_publishable_Rl9g7Z2O_I_MrVN5AATOjA_aHOObKDq";
+const supa=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+async function loadReal(){
+  const {data,error}=await supa.from('public.listings').select('*').order('created_at',{ascending:false}).limit(20);
+  console.log('Supabase real:',data,error);
+  if(!data||!data.length){toast('No real listings — showing mockup');return;}
+  const grid=document.querySelector('.grid');grid.innerHTML='';
+  data.forEach(r=>{
+    grid.innerHTML+=`<div class="item"><div class="item-top">🧥</div><div style="padding:8px"><span class="pill">${r.category||'Vintage'}</span><div style="font-weight:800;font-size:13px;margin-top:4px">${r.title}</div><div style="font-size:11px;color:#6B7280">$${r.price||'?'} • ${r.location||'Auckland'}</div></div></div>`;
+  });
+}
+function toast(m){let e=document.getElementById('t');if(!e){e=document.createElement('div');e.id='t';e.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:white;padding:12px 20px;border-radius:999px;font-size:13px;font-weight:700;z-index:9999;display:none';document.body.appendChild(e);}e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',3000);}
+function go(t){if(t=='shop'){window.scrollTo({top:0,behavior:'smooth'});loadReal();}else toast(t);}
+document.addEventListener('DOMContentLoaded',loadReal);
 </script>
 </body>
 </html>
