@@ -99,7 +99,7 @@ const SUPABASE_URL="https://dptzjshzhvzcrhxmxilf.supabase.co";
 const SUPABASE_ANON="sb_publishable_Rl9g7Z2O_I_MrVN5AATOjA_aHOObKDq";
 const supa=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
 async function loadReal(){
-  const {data,error}=await supa.from('public.listings').select('*').order('created_at',{ascending:false}).limit(20);
+  const {data,error}=await supa.from('listings').select('*').order('created_at',{ascending:false}).limit(20);
   console.log('Supabase real:',data,error);
   if(!data||!data.length){toast('No real listings — showing mockup');return;}
   const grid=document.querySelector('.grid');grid.innerHTML='';
