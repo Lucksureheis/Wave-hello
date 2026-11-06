@@ -1,291 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Wave Hello Shop — NZ's new marketplace Buy & sell in Aotearoa 75c to list 75c when sold First 5 listings FREE">
-<title>Wave Hello Shop — NZ's new marketplace Buy & sell in Aotearoa 75c to list 75c when sold First 5 listings FREE</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wave Hello Shop — TĀMAKI MAKAURAU</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:fixed url(https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2000) center/cover no-repeat;min-height:100vh;color:#111}
-body:before{content:'';position:fixed;inset:0;background:rgba(255,255,255,.88);z-index:-1}
-header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #111;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
-.logo{font-weight:900;letter-spacing:-.03em;font-size:20px}
-.tabs{display:flex;gap:8px}
-.tab{padding:8px 14px;border-radius:999px;border:1px solid #111;background:#fff;cursor:pointer;font-weight:700;font-size:13px}
-.tab.active{background:#111;color:#fff}
-.topbar{display:flex;justify-content:center;padding:12px 16px}
-.topbar .pill{font-size:11px;letter-spacing:.14em;background:#111;color:#fff;padding:6px 12px;border-radius:999px;font-weight:700}
-.hero{max-width:920px;margin:18px auto;padding:28px;background:#fff;border:1px solid #111}
-.hero h1{font-size:34px;line-height:.95;letter-spacing:-.03em}
-.hero p{margin-top:10px;color:#333;font-size:16px;line-height:1.4}
-.btns{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
-.btn{padding:12px 18px;border:1px solid #111;font-weight:800;cursor:pointer;background:#fff}
-.btn.primary{background:#111;color:#fff}
-.card{margin-top:20px;border:1px dashed #111;padding:14px;background:#fcfcfc}
-.card b{font-size:14px}
-.small{font-size:13px;color:#555;margin-top:6px;line-height:1.4}
-.pills{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
-.pill2{border:1px solid #111;padding:6px 12px;border-radius:999px;font-size:12px;background:#fff;font-weight:600}
-.chatbar{max-width:920px;margin:14px auto;padding:0 16px;display:flex;gap:8px;align-items:center}
-.chatbar button{border:1px solid #111;background:#111;color:#fff;padding:8px 12px;font-weight:700;cursor:pointer}
-.search{max-width:920px;margin:0 auto;padding:0 16px 10px;display:flex;gap:8px}
-.search input{flex:1;border:1px solid #111;padding:11px 12px;font-size:14px}
-.cats{max-width:920px;margin:0 auto;padding:0 16px 12px;display:flex;gap:8px;overflow:auto}
-.cats button{white-space:nowrap;border:1px solid #111;padding:7px 12px;background:#fff;cursor:pointer;font-weight:600;font-size:13px}
-.cats button.active{background:#111;color:#fff}
-#grid{max-width:920px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;padding:0 16px 40px}
-.item{border:1px solid #111;background:#fff;padding:10px}
-.item img{width:100%;height:150px;object-fit:cover;background:#eee;display:block}
-.item h3{font-size:14px;margin-top:8px;line-height:1.2}
-.item p{font-size:12px;color:#555;margin-top:4px}
-section{max-width:920px;margin:0 auto;padding:0 16px 40px}
-#listModal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
-#listModal.open{display:flex}
-.modalBox{background:#fff;border:1px solid #111;padding:18px;width:100%;max-width:480px;display:grid;gap:10px}
-.modalBox h2{font-size:18px}
-.modalBox input,.modalBox textarea,.modalBox select{border:1px solid #111;padding:10px;width:100%;font-size:14px}
-.modalActions{display:flex;gap:10px;justify-content:flex-end}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 14px;display:none;z-index:50;font-size:13px}
-#toast.show{display:block}
-.empty{border:1px solid #111;padding:20px;text-align:center;background:#fff}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,sans-serif;background:#f6f3ec;color:#111}
+.beach{position:fixed;inset:0;z-index:-1;background:url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2000') center/cover;opacity:.22}
+header{background:#0f0f0f;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+header b{letter-spacing:.08em}header small{opacity:.7;font-size:11px;letter-spacing:.18em}
+.tabs{display:flex;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid #e8e2d9;position:sticky;top:48px;z-index:9}
+.tab{padding:8px 14px;border-radius:999px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:13px}
+.tab.active{background:#111;color:#fff;border-color:#111}
+.hero{padding:48px 20px;text-align:center}
+.hero h1{font-size:42px;line-height:.9;letter-spacing:-.03em}.hero p{margin:12px auto;max-width:560px;color:#444}
+.btns{display:flex;gap:10px;justify-content:center;margin:18px 0}
+.btn{padding:12px 20px;border-radius:999px;border:0;cursor:pointer;font-weight:700}.btn.dark{background:#111;color:#fff}.btn.light{background:#fff;border:1px solid #111}
+.compare{background:#fff;border:1px solid #e8e2d9;border-radius:16px;max-width:720px;margin:22px auto;padding:16px;display:flex;justify-content:space-between}
+.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px}
+.pill{padding:6px 12px;border-radius:999px;background:#fff;border:1px solid #ddd;font-size:12px}
+.bar{display:flex;gap:8px;padding:12px 16px;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;flex-wrap:wrap}
+.bar input,.bar select{padding:10px 12px;border-radius:10px;border:1px solid #ddd;flex:1;min-width:140px}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:16px}
+.card{background:#fff;border:1px solid #e8e2d9;border-radius:14px;overflow:hidden}.card img{width:100%;height:180px;object-fit:cover}
+.card .m{padding:10px}.price{font-weight:800}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:999px;display:none;z-index:99}
+#listModal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:50}
+.modal{background:#fff;border-radius:18px;padding:18px;width:92%;max-width:420px;display:flex;flex-direction:column;gap:10px}
+.modal input,.modal textarea,.modal select{padding:10px;border-radius:10px;border:1px solid #ddd;width:100%}
+#connectBankBtn{background:#2563eb;color:#fff;padding:12px;border-radius:12px;border:0;font-weight:800;cursor:pointer}
+#connectBankBtn.done{background:#16a34a}
+.green{color:#16a34a;font-size:13px;font-weight:700;display:none}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
-<header>
-<div class="logo">WAVE HELLO</div>
+<div class="beach"></div>
+<header><b>Wave Hello Shop</b><small>TĀMAKI MAKAURAU NZ VINTAGE & JEWELRY</small></header>
 <div class="tabs">
-<button class="tab active" data-tab="shop">Shop</button>
-<button class="tab" data-tab="chat">Chat <span>2</span></button>
-<button class="tab" data-tab="list">My Listings</button>
-<button class="tab" data-tab="orders">Orders</button>
+<button class="tab active" onclick="switchTab('shop')">Shop</button>
+<button class="tab" onclick="switchTab('chat')">Chat <span>2</span></button>
+<button class="tab" onclick="switchTab('list')">My Listings</button>
+<button class="tab" onclick="switchTab('orders')">Orders</button>
 </div>
-</header>
-
-<div class="topbar"><div class="pill">NZ'S NEW MARKETPLACE</div></div>
-
+<div id="sec-shop">
 <div class="hero">
-<h1>Wave Hello Shop — NZ's new marketplace Buy & sell in Aotearoa</h1>
-<p>The Trade Me alternative 75c to list 75c when sold First 5 listings FREE. Keep more from every sale.</p>
-<div class="btns">
-<button class="btn primary" id="browseBtn">Browse listings</button>
-<button class="btn" id="listBtn">List vintage or jewelry</button>
+<h1>NZ'S NEW MARKETPLACE</h1>
+<p>Trade Me alternative — 75c to list, 75c when sold. First 5 FREE. Vintage & jewelry, by locals for locals.</p>
+<div class="btns"><button class="btn dark" onclick="document.getElementById('grid').scrollIntoView()">Browse listings</button><button class="btn light" onclick="openList()">List vintage or jewelry</button></div>
+<div class="compare"><div><small>Trade Me</small><b style="display:block">$18.60 fees on $100 sale</b></div><div><small>WHY SELLERS ARE SWITCHING</small><b style="display:block;color:#16a34a">$17.92 vs $18.60 — keep more</b></div><div><small>Wave Hello</small><b style="display:block">75c list + 75c sold</b></div></div>
+<div class="pills"><span class="pill">Vintage</span><span class="pill">Jewelry</span><span class="pill">Puffer</span></div>
 </div>
-<div class="card">
-<b>WHY SELLERS ARE SWITCHING</b>
-<div class="small">Sarah sold a $20 dress: Trade Me fee $1.40 = gets $18.60. On Wave Hello she gets $19.25 after $0.75? Actually example: Sarah gets 17.92 vs 18.60 keeps more after 75c fees — flat fees beat %.</div>
-<div class="small">Example calc: $20 sale - 75c list - 75c sold = $18.50 kept vs market 7% = $18.60. At higher prices you win big. 5 free to start.</div>
-</div>
-<div class="pills">
-<span class="pill2">Vintage</span>
-<span class="pill2">Jewelry</span>
-<span class="pill2">Puffer</span>
-</div>
-</div>
-
-<div class="chatbar">
-<span style="font-weight:800;font-size:13px">Chat</span>
-<button id="openChatBtn">Chat</button>
-<span style="font-size:12px;color:#555">2 unread — reply fast to close sales</span>
-</div>
-
-<div class="search">
-<input id="search" placeholder="Search vintage jewelry puffer">
-<button class="btn" id="createListBtn">+ List</button>
-</div>
-
-<div class="cats">
-<button class="active" data-cat="All">All</button>
-<button data-cat="Streetwear">Streetwear</button>
-<button data-cat="Puffer">Puffer</button>
-<button data-cat="Vintage">Vintage</button>
-<button data-cat="Jewelry">Jewelry</button>
-<button data-cat="Accessories">Accessories</button>
-<button data-cat="Footwear">Footwear</button>
-<button data-cat="Home">Home</button>
-<button data-cat="Tech">Tech</button>
-<button data-cat="Other">Other</button>
-</div>
-
+<div class="bar"><input id="search" placeholder="Search vintage, jewelry..." oninput="loadGrid()"><select id="cat" onchange="loadGrid()"><option value="All">All</option><option>Streetwear</option><option>Puffer</option><option>Vintage</option><option>Jewelry</option><option>Accessories</option><option>Footwear</option><option>Home</option><option>Tech</option><option>Other</option></select><button class="btn dark" style="padding:10px 14px" onclick="openChat()">Chat</button></div>
 <div id="grid"></div>
-
-<section id="shop-section">
-<div style="font-weight:800;margin-bottom:10px">Shop — live from Supabase</div>
-<div id="shop-list"></div>
-</section>
-
-<section id="chat-section" style="display:none">
-<h2 style="font-size:18px;font-weight:800">Chat</h2>
-<div style="margin-top:12px;display:grid;gap:10px">
-<div class="item"><b>Maya • Puffer inquiry</b><p>Is this still available? Can you do $80?</p><button class="btn" style="margin-top:8px">Reply</button></div>
-<div class="item"><b>Sam • Vintage ring</b><p>Loved it! When can you ship to Wellington?</p><button class="btn" style="margin-top:8px">Reply</button></div>
 </div>
-</section>
-
-<section id="list-section" style="display:none">
-<h2 style="font-size:18px;font-weight:800">My Listings</h2>
-<div id="myList" style="margin-top:12px;display:grid;gap:10px"></div>
-</section>
-
-<section id="orders-section" style="display:none">
-<h2 style="font-size:18px;font-weight:800">Orders</h2>
-<div class="empty" style="margin-top:12px">No orders yet. List something to get first sale — first 5 FREE.</div>
-</section>
-
-<div id="listModal">
-<div class="modalBox">
-<h2>List an item</h2>
-<input id="f_title" placeholder="Title e.g. Vintage 90s Puffer">
-<input id="f_price" type="number" placeholder="Price e.g. 85">
-<select id="f_cat">
-<option>Vintage</option>
-<option>Jewelry</option>
-<option>Puffer</option>
-<option>Streetwear</option>
-<option>Accessories</option>
-<option>Footwear</option>
-<option>Home</option>
-<option>Tech</option>
-<option>Other</option>
-</select>
+<div id="sec-chat" style="display:none;padding:20px"><h2>Chat</h2><div id="chatList">No messages yet — start by browsing</div><div class="bar" style="margin-top:12px"><input placeholder="Say hello..."><button class="btn dark">Chat</button></div></div>
+<div id="sec-list" style="display:none;padding:20px"><h2>My Listings</h2><div id="myGrid"></div></div>
+<div id="sec-orders" style="display:none;padding:20px"><h2>Orders</h2><p>Your sales & purchases appear here.</p></div>
+<div id="toast"></div>
+<div id="listModal"><div class="modal">
+<h3>List an item</h3>
+<button id="connectBankBtn" onclick="connectBank()">Connect Bank to get paid</button>
+<span id="bankStatus" class="green"></span>
+<input id="f_title" placeholder="Title e.g. 90s Puffer">
+<input id="f_price" type="number" placeholder="Price NZD">
+<select id="f_cat"><option>Vintage</option><option>Jewelry</option><option>Puffer</option><option>Streetwear</option><option>Accessories</option><option>Footwear</option><option>Home</option><option>Tech</option><option>Other</option></select>
 <input id="f_location" placeholder="Location e.g. Auckland">
 <textarea id="f_desc" placeholder="Description, condition, measurements"></textarea>
-<input id="f_image" type="file" accept="image/*">
-<div class="modalActions">
-<button class="btn" id="cancelList">Cancel</button>
-<button class="btn primary" id="submitList">List for 75c</button>
-</div>
-<div class="small">First 5 listings FREE — then 75c to list, 75c when sold.</div>
-</div>
-</div>
-
-<div id="toast"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<input id="f_image" placeholder="Image URL (https://...)">
+<div style="display:flex;gap:8px"><button class="btn dark" style="flex:1" onclick="submitList()">List for 75c</button><button class="btn light" style="flex:1" onclick="closeList()">Cancel</button></div>
+</div></div>
 <script>
-const SUPABASE_URL = 'https://dptzjshzhvzcrhxmxilf.supabase.co';
-const SUPABASE_ANON = 'sb_publishable_Rl9g7Z2O_I_MrVN5AATOjA_aHOObKDq';
-const supa = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
-function toast(m){
- var t=document.getElementById('toast');
- t.textContent=m; t.classList.add('show');
- setTimeout(()=>t.classList.remove('show'),2600);
-}
-
-let listings=[];
-let activeCat='All';
-let activeTab='shop';
-
-const mock=[
- {id:1,title:'Vintage Carhartt Puffer',price:120,cat:'Puffer',location:'Auckland',img:'https://images.unsplash.com/photo-1542272604-787c3835535d?q=80&w=400'},
- {id:2,title:'Gold Pearl Necklace',price:45,cat:'Jewelry',location:'Wellington',img:'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=400'},
- {id:3,title:'90s Levi Vintage Jeans',price:65,cat:'Vintage',location:'Christchurch',img:'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=400'}
-];
-
-async function loadReal(){
+const SUPA_URL='https://dptzjshzhvzcrhxmxilf.supabase.co';
+const SUPA_ANON='sb_publishable_Rl9g7Z2O_I_MrVN5AATOjA_aHOObKDq';
+const supa=supabase.createClient(SUPA_URL,SUPA_ANON);
+function showToast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
+function switchTab(n){document.getElementById('sec-shop').style.display=n==='shop'?'':'none';document.getElementById('sec-chat').style.display=n==='chat'?'':'none';document.getElementById('sec-list').style.display=n==='list'?'':'none';document.getElementById('sec-orders').style.display=n==='orders'?'':'none';document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active', (['shop','chat','list','orders'][i]===n)))}
+function openList(){document.getElementById('listModal').style.display='flex';checkBank()}
+function closeList(){document.getElementById('listModal').style.display='none'}
+function openChat(){switchTab('chat')}
+function checkBank(){let a=localStorage.getItem('seller_acct');if(a){let b=document.getElementById('connectBankBtn');b.textContent='✓ Connected '+a;b.classList.add('done');let s=document.getElementById('bankStatus');s.textContent='Connected '+a;s.style.display='block'}}
+async function connectBank(){
+ let email=localStorage.getItem('seller_email')||prompt('Seller email for payouts?');
+ if(!email) return;
+ localStorage.setItem('seller_email',email);
+ let btn=document.getElementById('connectBankBtn');btn.textContent='Connecting...';
  try{
-  const {data,error}=await supa.from('listings').select('*').order('created_at',{ascending:false}).limit(50);
+  let {data,error}=await supa.functions.invoke('hyper-action',{body:{type:'connect',email:email,return_url:window.location.origin}});
   if(error) throw error;
-  if(data && data.length){ listings=data; renderGrid(); renderMyList(); toast('Loaded '+data.length+' live'); }
-  else { listings=mock; renderGrid(); renderMyList(); }
- }catch(e){ listings=mock; renderGrid(); renderMyList(); toast('Offline demo'); }
+  if(data&&data.url){window.location.href=data.url}
+ }catch(e){showToast('Connect failed: '+e.message);btn.textContent='Connect Bank to get paid'}
 }
-
-function renderMock(){ listings=mock; renderGrid(); }
-
-function renderGrid(){
- var g=document.getElementById('grid');
- var q=(document.getElementById('search').value||'').toLowerCase();
- var filtered=listings.filter(function(it){
-  var mCat=activeCat==='All'||it.cat===it.category||it.cat===activeCat;
-  var txt=(it.title+' '+(it.cat||'')+' '+(it.location||'')).toLowerCase();
-  return mCat && txt.includes(q);
- });
- g.innerHTML=filtered.map(function(it){
-  return '<div class="item"><img src="'+(it.img||it.image_url||'')+'" alt=""><h3>'+it.title+'</h3><p>$'+it.price+' • '+(it.cat||it.category||'Other')+' • '+(it.location||'')+'</p></div>';
- }).join('')||'<div class="empty">No listings yet</div>';
+async function handleReturn(){
+ let p=new URLSearchParams(location.search);
+ if(p.get('connect_done')==='true'&&p.get('acct')){
+  localStorage.setItem('seller_acct',p.get('acct'));
+  showToast('Bank Connected '+p.get('acct'));
+  let s=document.getElementById('bankStatus');if(s){s.textContent='Connected '+p.get('acct');s.style.display='block'}
+  let b=document.getElementById('connectBankBtn');if(b){b.textContent='✓ Connected '+p.get('acct');b.classList.add('done')}
+  history.replaceState({},'',location.pathname)
+ }
+ if(p.get('connect_refresh')==='true'){showToast('Complete Stripe onboarding');history.replaceState({},'',location.pathname)}
 }
-
-function renderMyList(){
- var el=document.getElementById('myList');
- if(!el) return;
- el.innerHTML=listings.slice(0,6).map(function(it){
-  return '<div class="item"><h3>'+it.title+'</h3><p>$'+it.price+'</p></div>';
- }).join('');
+async function loadGrid(){
+ let q=document.getElementById('search').value;let c=document.getElementById('cat').value;
+ let query=supa.from('listings').select('*').order('created_at',{ascending:false}).limit(60);
+ if(q) query=query.ilike('title','%'+q+'%');
+ if(c!=='All') query=query.eq('category',c);
+ let {data,error}=await query;
+ let grid=document.getElementById('grid');if(error){grid.innerHTML='<p>Error loading</p>';return}
+ grid.innerHTML=(data||[]).map(r=>'<div class=card><img src="'+(r.image_url||'https://picsum.photos/300')+'"><div class=m><b>'+r.title+'</b><div class=price>$'+r.price+'</div><small>'+(r.location||'')+'</small><button class="btn dark" style="width:100%;margin-top:8px" onclick="buyNow(\''+r.id+'\',\''+(r.title||'').replace(/'/g,'')+'\','+r.price+',\''+(r.seller_stripe_account_id||'')+'\')">Buy Now</button></div></div>').join('')||'<p>No listings yet</p>'
 }
-
-function filterCat(cat){
- activeCat=cat;
- document.querySelectorAll('.cats button').forEach(function(b){ b.classList.toggle('active', b.dataset.cat===cat); });
- renderGrid();
+async function submitList(){
+ let acct=localStorage.getItem('seller_acct')||'';let email=localStorage.getItem('seller_email')||'';
+ if(!acct){showToast('Connect bank first');return}
+ let title=document.getElementById('f_title').value;let price=parseFloat(document.getElementById('f_price').value);
+ let cat=document.getElementById('f_cat').value;let loc=document.getElementById('f_location').value;
+ let desc=document.getElementById('f_desc').value;let img=document.getElementById('f_image').value;
+ if(!title||!price) return showToast('Title & price needed');
+ let {data:cnt}=await supa.from('listings').select('id',{count:'exact'}).eq('seller_email',email);
+ let count=(cnt&&cnt.length)||0;let is_free=count<5;
+ try{
+  let {data,error}=await supa.functions.invoke('hyper-action',{body:{type:'listing',title,price,category:cat,seller_email:email,seller_stripe_account_id:acct,listing_count:count,is_free_listing:is_free}});
+  if(error) throw error;
+  let {error:insErr}=await supa.from('listings').insert([{title,price,category:cat,location:loc,description:desc,image_url:img,seller_email:email,seller_stripe_account_id:acct}]);
+  if(insErr) throw insErr;
+  showToast(is_free?'Listed FREE!':'Listed for 75c');closeList();loadGrid();
+ }catch(e){showToast('List failed '+e.message)}
 }
-
-function switchTab(tab){
- activeTab=tab;
- document.querySelectorAll('.tabs .tab').forEach(function(b){ b.classList.toggle('active', b.dataset.tab===tab); });
- document.getElementById('shop-section').style.display=tab==='shop'?'block':'none';
- document.getElementById('chat-section').style.display=tab==='chat'?'block':'none';
- document.getElementById('list-section').style.display=tab==='list'?'block':'none';
- document.getElementById('orders-section').style.display=tab==='orders'?'block':'none';
- document.getElementById('grid').style.display=tab==='shop'?'grid':'none';
- document.querySelector('.search').style.display=tab==='shop'?'flex':'none';
- document.querySelector('.cats').style.display=tab==='shop'?'flex':'none';
+async function buyNow(id,title,price,seller_acct){
+ if(!seller_acct) return showToast('Seller not onboarded');
+ try{
+  let {data,error}=await supa.functions.invoke('hyper-action',{body:{type:'sale',listing_id:id,title,price,seller_stripe_account_id:seller_acct}});
+  if(error) throw error;
+  if(data&&data.url) window.location.href=data.url; else showToast('Checkout created')
+ }catch(e){showToast('Buy failed '+e.message)}
 }
-
-document.addEventListener('DOMContentLoaded', function(){
- loadReal();
- renderMock();
-
- document.querySelectorAll('.tabs .tab').forEach(function(btn){
-  btn.addEventListener('click', function(){ switchTab(btn.dataset.tab); });
- });
- document.querySelectorAll('.cats button').forEach(function(btn){
-  btn.addEventListener('click', function(){ filterCat(btn.dataset.cat); });
- });
- document.getElementById('search').addEventListener('input', renderGrid);
- document.getElementById('browseBtn').addEventListener('click', function(){
-  document.getElementById('grid').scrollIntoView({behavior:'smooth'});
- });
- document.getElementById('listBtn').addEventListener('click', function(){
-  document.getElementById('listModal').classList.add('open');
- });
- document.getElementById('createListBtn').addEventListener('click', function(){
-  document.getElementById('listModal').classList.add('open');
- });
- document.getElementById('openChatBtn').addEventListener('click', function(){ switchTab('chat'); });
- document.getElementById('cancelList').addEventListener('click', function(){
-  document.getElementById('listModal').classList.remove('open');
- });
- document.getElementById('listModal').addEventListener('click', function(e){
-  if(e.target.id==='listModal') e.currentTarget.classList.remove('open');
- });
- document.getElementById('submitList').addEventListener('click', async function(){
-  var title=document.getElementById('f_title').value.trim();
-  var price=parseFloat(document.getElementById('f_price').value);
-  var cat=document.getElementById('f_cat').value;
-  var location=document.getElementById('f_location').value.trim();
-  var desc=document.getElementById('f_desc').value.trim();
-  var file=document.getElementById('f_image').files[0];
-  if(!title||!price){ toast('Add title + price'); return; }
-  var image_url='';
-  try{
-   if(file){
-    var path='listings/'+Date.now()+'_'+file.name;
-    var up=await supa.storage.from('listing-images').upload(path,file);
-    if(up.error) throw up.error;
-    var pub=supa.storage.from('listing-images').getPublicUrl(path);
-    image_url=pub.data.publicUrl;
-   }
-   var row={title:title,price:price,category:cat,location:location,description:desc,image_url:image_url};
-   var ins=await supa.from('listings').insert([row]).select();
-   if(ins.error) throw ins.error;
-   toast('Listed! First 5 FREE');
-   document.getElementById('listModal').classList.remove('open');
-   loadReal();
-  }catch(err){ toast('Error: '+(err.message||err)); }
- });
-});
+handleReturn();loadGrid();
 </script>
 </body>
 </html>
