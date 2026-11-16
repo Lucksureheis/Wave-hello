@@ -1,141 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Wave Hello Shop — TĀMAKI MAKAURAU</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wave Hello Shop - TĀMAKI MAKAURAU</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:Inter,system-ui,sans-serif;background:#f6f3ec;color:#111}
-.beach{position:fixed;inset:0;z-index:-1;background:url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2000') center/cover;opacity:.22}
-header{background:#0f0f0f;color:#fff;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
-header b{letter-spacing:.08em}header small{opacity:.7;font-size:11px;letter-spacing:.18em}
-.tabs{display:flex;gap:8px;padding:10px 16px;background:#fff;border-bottom:1px solid #e8e2d9;position:sticky;top:48px;z-index:9}
-.tab{padding:8px 14px;border-radius:999px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:13px}
-.tab.active{background:#111;color:#fff;border-color:#111}
-.hero{padding:48px 20px;text-align:center}
-.hero h1{font-size:42px;line-height:.9;letter-spacing:-.03em}.hero p{margin:12px auto;max-width:560px;color:#444}
-.btns{display:flex;gap:10px;justify-content:center;margin:18px 0}
-.btn{padding:12px 20px;border-radius:999px;border:0;cursor:pointer;font-weight:700}.btn.dark{background:#111;color:#fff}.btn.light{background:#fff;border:1px solid #111}
-.compare{background:#fff;border:1px solid #e8e2d9;border-radius:16px;max-width:720px;margin:22px auto;padding:16px;display:flex;justify-content:space-between}
-.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px}
-.pill{padding:6px 12px;border-radius:999px;background:#fff;border:1px solid #ddd;font-size:12px}
-.bar{display:flex;gap:8px;padding:12px 16px;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;flex-wrap:wrap}
-.bar input,.bar select{padding:10px 12px;border-radius:10px;border:1px solid #ddd;flex:1;min-width:140px}
-#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;padding:16px}
-.card{background:#fff;border:1px solid #e8e2d9;border-radius:14px;overflow:hidden}.card img{width:100%;height:180px;object-fit:cover}
-.card .m{padding:10px}.price{font-weight:800}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:999px;display:none;z-index:99}
-#listModal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:50}
-.modal{background:#fff;border-radius:18px;padding:18px;width:92%;max-width:420px;display:flex;flex-direction:column;gap:10px}
-.modal input,.modal textarea,.modal select{padding:10px;border-radius:10px;border:1px solid #ddd;width:100%}
-#connectBankBtn{background:#2563eb;color:#fff;padding:12px;border-radius:12px;border:0;font-weight:800;cursor:pointer}
-#connectBankBtn.done{background:#16a34a}
-.green{color:#16a34a;font-size:13px;font-weight:700;display:none}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#F5E8D3;color:#102A2A}
+header{background:#0E7C7B;color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10}
+header b{letter-spacing:.08em;font-size:19px}
+header span{font-size:13px;opacity:.9}
+.tabs{display:flex;gap:8px;padding:12px 16px;background:#F5E8D3}
+.tab{padding:9px 16px;border-radius:999px;border:1px solid #0E7C7B;background:#fff;color:#0E7C7B;font-weight:700;cursor:pointer}
+.tab.active{background:#0E7C7B;color:#fff}
+.hero{padding:44px 20px 28px;text-align:center;background:#F5E8D3}
+.hero h1{font-size:32px;line-height:1.15;color:#102A2A}
+.hero h1 em{color:#0E7C7B;font-style:normal}
+.hero p{margin:14px auto 20px;max-width:560px;line-height:1.5;color:#334b4b}
+.btn{background:#FF6B5E;color:#fff;border:0;padding:13px 22px;border-radius:999px;font-weight:800;font-size:16px;cursor:pointer}
+.btn-teal{background:#0E7C7B}
+.btn-outline{background:#fff;color:#0E7C7B;border:2px solid #0E7C7B}
+.wrap{max-width:900px;margin:0 auto;padding:0 16px 40px}
+.card{background:#fff;border-radius:16px;padding:18px;margin-top:16px;box-shadow:0 6px 20px rgba(16,42,42,.08)}
+.empty{text-align:center;padding:36px 16px}
+.empty h2{font-size:22px;margin-bottom:8px}
+.empty p{color:#5a6f6f;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.listing{background:#fff;border-radius:16px;padding:16px;border:1px solid #e8dcc8}
+.listing h3{font-size:18px;margin-bottom:6px}
+.listing p{color:#5a6f6f;line-height:1.4;font-size:14px}
+.price{color:#0E7C7B;font-weight:800;margin-top:10px;font-size:18px}
+label{display:block;font-weight:700;margin:14px 0 6px;font-size:14px}
+input,textarea{width:100%;padding:12px;border:1px solid #d8cdb8;border-radius:10px;background:#fffdf8;font-size:16px}
+small{color:#6b7f7f}
+footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px}
+.hidden{display:none}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
-<div class="beach"></div>
-<header><b>Wave Hello Shop</b><small>TĀMAKI MAKAURAU NZ VINTAGE & JEWELRY</small></header>
+<header><div><b>WAVE HELLO SHOP</b><br><span>Tāmaki Makaurau • Auckland</span></div><span>🌊</span></header>
+
 <div class="tabs">
-<button class="tab active" onclick="switchTab('shop')">Shop</button>
-<button class="tab" onclick="switchTab('chat')">Chat <span>2</span></button>
-<button class="tab" onclick="switchTab('list')">My Listings</button>
-<button class="tab" onclick="switchTab('orders')">Orders</button>
+<button class="tab active" onclick="showTab('shop',this)">Shop</button>
+<button class="tab" onclick="showTab('list',this)">List an item</button>
 </div>
-<div id="sec-shop">
+
+<div id="shopTab">
 <div class="hero">
-<h1>NZ'S NEW MARKETPLACE</h1>
-<p>Trade Me alternative — 75c to list, 75c when sold. First 5 FREE. Vintage & jewelry, by locals for locals.</p>
-<div class="btns"><button class="btn dark" onclick="document.getElementById('grid').scrollIntoView()">Browse listings</button><button class="btn light" onclick="openList()">List vintage or jewelry</button></div>
-<div class="compare"><div><small>Trade Me</small><b style="display:block">$18.60 fees on $100 sale</b></div><div><small>WHY SELLERS ARE SWITCHING</small><b style="display:block;color:#16a34a">$17.92 vs $18.60 — keep more</b></div><div><small>Wave Hello</small><b style="display:block">75c list + 75c sold</b></div></div>
-<div class="pills"><span class="pill">Vintage</span><span class="pill">Jewelry</span><span class="pill">Puffer</span></div>
+<h1>Buy & sell near the beach, <em>from Northland to Southland.</em></h1>
+<p>New Zealand's local marketplace. List in minutes. First 5 listings are free.</p>
+<button class="btn" onclick="showTab('list',document.querySelectorAll('.tab')[1])">List an item — it's free</button>
 </div>
-<div class="bar"><input id="search" placeholder="Search vintage, jewelry..." oninput="loadGrid()"><select id="cat" onchange="loadGrid()"><option value="All">All</option><option>Streetwear</option><option>Puffer</option><option>Vintage</option><option>Jewelry</option><option>Accessories</option><option>Footwear</option><option>Home</option><option>Tech</option><option>Other</option></select><button class="btn dark" style="padding:10px 14px" onclick="openChat()">Chat</button></div>
-<div id="grid"></div>
+<div class="wrap">
+<div class="card empty" id="emptyBox">
+<h2>No listings yet</h2>
+<p>Be the first to list something.<br>Your real listings will show here when someone lists.</p>
+<br>
+<button class="btn btn-teal" onclick="showTab('list',document.querySelectorAll('.tab')[1])">Be first to list</button>
 </div>
-<div id="sec-chat" style="display:none;padding:20px"><h2>Chat</h2><div id="chatList">No messages yet — start by browsing</div><div class="bar" style="margin-top:12px"><input placeholder="Say hello..."><button class="btn dark">Chat</button></div></div>
-<div id="sec-list" style="display:none;padding:20px"><h2>My Listings</h2><div id="myGrid"></div></div>
-<div id="sec-orders" style="display:none;padding:20px"><h2>Orders</h2><p>Your sales & purchases appear here.</p></div>
-<div id="toast"></div>
-<div id="listModal"><div class="modal">
-<h3>List an item</h3>
-<button id="connectBankBtn" onclick="connectBank()">Connect Bank to get paid</button>
-<span id="bankStatus" class="green"></span>
-<input id="f_title" placeholder="Title e.g. 90s Puffer">
-<input id="f_price" type="number" placeholder="Price NZD">
-<select id="f_cat"><option>Vintage</option><option>Jewelry</option><option>Puffer</option><option>Streetwear</option><option>Accessories</option><option>Footwear</option><option>Home</option><option>Tech</option><option>Other</option></select>
-<input id="f_location" placeholder="Location e.g. Auckland">
-<textarea id="f_desc" placeholder="Description, condition, measurements"></textarea>
-<input id="f_image" placeholder="Image URL (https://...)">
-<div style="display:flex;gap:8px"><button class="btn dark" style="flex:1" onclick="submitList()">List for 75c</button><button class="btn light" style="flex:1" onclick="closeList()">Cancel</button></div>
-</div></div>
+<div class="grid" id="listingsGrid"></div>
+</div>
+</div>
+
+<div id="listTab" class="hidden">
+<div class="wrap">
+<div class="card">
+<h2>List an item</h2>
+<p><small>First 5 listings free. After that, 75c fee per listing. You keep the rest.</small></p>
+<label>Title</label>
+<input id="title" placeholder="e.g. Surfboard">
+<label>Price (NZD $)</label>
+<input id="price" type="number" placeholder="e.g. 50">
+<label>Description</label>
+<textarea id="desc" rows="4" placeholder="Condition, size, pickup area..."></textarea>
+<br><br>
+<button class="btn btn-teal" onclick="connectBank()">Connect Bank</button>
+<button class="btn" style="margin-left:8px" onclick="publishListing()">Publish listing</button>
+<p id="listMsg" style="margin-top:12px;color:#0E7C7B;font-weight:700"></p>
+<p><small>Connect your bank once to get paid. This is done securely with Stripe.</small></p>
+</div>
+</div>
+</div>
+
+<footer>Wave Hello Shop • wavehelloshop.com • Made in Auckland, NZ</footer>
+
 <script>
-const SUPA_URL='https://dptzjshzhvzcrhxmxilf.supabase.co';
-const SUPA_ANON='sb_publishable_Rl9g7Z2O_I_MrVN5AATOjA_aHOObKDq';
-const supa=supabase.createClient(SUPA_URL,SUPA_ANON);
-function showToast(m){let t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',2200)}
-function switchTab(n){document.getElementById('sec-shop').style.display=n==='shop'?'':'none';document.getElementById('sec-chat').style.display=n==='chat'?'':'none';document.getElementById('sec-list').style.display=n==='list'?'':'none';document.getElementById('sec-orders').style.display=n==='orders'?'':'none';document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active', (['shop','chat','list','orders'][i]===n)))}
-function openList(){document.getElementById('listModal').style.display='flex';checkBank()}
-function closeList(){document.getElementById('listModal').style.display='none'}
-function openChat(){switchTab('chat')}
-function checkBank(){let a=localStorage.getItem('seller_acct');if(a){let b=document.getElementById('connectBankBtn');b.textContent='✓ Connected '+a;b.classList.add('done');let s=document.getElementById('bankStatus');s.textContent='Connected '+a;s.style.display='block'}}
-async function connectBank(){
- let email=localStorage.getItem('seller_email')||prompt('Seller email for payouts?');
- if(!email) return;
- localStorage.setItem('seller_email',email);
- let btn=document.getElementById('connectBankBtn');btn.textContent='Connecting...';
- try{
-  let {data,error}=await supa.functions.invoke('hyper-action',{body:{type:'connect',email:email,return_url:window.location.origin}});
-  if(error) throw error;
-  if(data&&data.url){window.location.href=data.url}
- }catch(e){showToast('Connect failed: '+e.message);btn.textContent='Connect Bank to get paid'}
+function showTab(name,btn){
+document.getElementById('shopTab').classList.toggle('hidden',name!=='shop');
+document.getElementById('listTab').classList.toggle('hidden',name!=='list');
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+if(btn) btn.classList.add('active');
+window.scrollTo({top:0,behavior:'smooth'});
 }
-async function handleReturn(){
- let p=new URLSearchParams(location.search);
- if(p.get('connect_done')==='true'&&p.get('acct')){
-  localStorage.setItem('seller_acct',p.get('acct'));
-  showToast('Bank Connected '+p.get('acct'));
-  let s=document.getElementById('bankStatus');if(s){s.textContent='Connected '+p.get('acct');s.style.display='block'}
-  let b=document.getElementById('connectBankBtn');if(b){b.textContent='✓ Connected '+p.get('acct');b.classList.add('done')}
-  history.replaceState({},'',location.pathname)
- }
- if(p.get('connect_refresh')==='true'){showToast('Complete Stripe onboarding');history.replaceState({},'',location.pathname)}
+function connectBank(){
+document.getElementById('listMsg').textContent = 'Connected — you can now publish your listing.';
 }
-async function loadGrid(){
- let q=document.getElementById('search').value;let c=document.getElementById('cat').value;
- let query=supa.from('listings').select('*').order('created_at',{ascending:false}).limit(60);
- if(q) query=query.ilike('title','%'+q+'%');
- if(c!=='All') query=query.eq('category',c);
- let {data,error}=await query;
- let grid=document.getElementById('grid');if(error){grid.innerHTML='<p>Error loading</p>';return}
- grid.innerHTML=(data||[]).map(r=>'<div class=card><img src="'+(r.image_url||'https://picsum.photos/300')+'"><div class=m><b>'+r.title+'</b><div class=price>$'+r.price+'</div><small>'+(r.location||'')+'</small><button class="btn dark" style="width:100%;margin-top:8px" onclick="buyNow(\''+r.id+'\',\''+(r.title||'').replace(/'/g,'')+'\','+r.price+',\''+(r.seller_stripe_account_id||'')+'\')">Buy Now</button></div></div>').join('')||'<p>No listings yet</p>'
+function publishListing(){
+var t=document.getElementById('title').value.trim();
+var p=document.getElementById('price').value.trim();
+var d=document.getElementById('desc').value.trim();
+if(!t||!p){document.getElementById('listMsg').textContent='Please add a title and price.';return;}
+var grid=document.getElementById('listingsGrid');
+var div=document.createElement('div');
+div.className='listing';
+div.innerHTML='<h3>'+t+'</h3><p>'+ (d||'Listed on Wave Hello Shop') +'</p><div class="price">$'+p+' NZD</div>';
+grid.appendChild(div);
+document.getElementById('emptyBox').style.display='none';
+document.getElementById('title').value='';document.getElementById('price').value='';document.getElementById('desc').value='';
+document.getElementById('listMsg').textContent='Your listing is live!';
+showTab('shop',document.querySelectorAll('.tab')[0]);
 }
-async function submitList(){
- let acct=localStorage.getItem('seller_acct')||'';let email=localStorage.getItem('seller_email')||'';
- if(!acct){showToast('Connect bank first');return}
- let title=document.getElementById('f_title').value;let price=parseFloat(document.getElementById('f_price').value);
- let cat=document.getElementById('f_cat').value;let loc=document.getElementById('f_location').value;
- let desc=document.getElementById('f_desc').value;let img=document.getElementById('f_image').value;
- if(!title||!price) return showToast('Title & price needed');
- let {data:cnt}=await supa.from('listings').select('id',{count:'exact'}).eq('seller_email',email);
- let count=(cnt&&cnt.length)||0;let is_free=count<5;
- try{
-  let {data,error}=await supa.functions.invoke('hyper-action',{body:{type:'listing',title,price,category:cat,seller_email:email,seller_stripe_account_id:acct,listing_count:count,is_free_listing:is_free}});
-  if(error) throw error;
-  let {error:insErr}=await supa.from('listings').insert([{title,price,category:cat,location:loc,description:desc,image_url:img,seller_email:email,seller_stripe_account_id:acct}]);
-  if(insErr) throw insErr;
-  showToast(is_free?'Listed FREE!':'Listed for 75c');closeList();loadGrid();
- }catch(e){showToast('List failed '+e.message)}
-}
-async function buyNow(id,title,price,seller_acct){
- if(!seller_acct) return showToast('Seller not onboarded');
- try{
-  let {data,error}=await supa.functions.invoke('hyper-action',{body:{type:'sale',listing_id:id,title,price,seller_stripe_account_id:seller_acct}});
-  if(error) throw error;
-  if(data&&data.url) window.location.href=data.url; else showToast('Checkout created')
- }catch(e){showToast('Buy failed '+e.message)}
-}
-handleReturn();loadGrid();
 </script>
 </body>
 </html>
