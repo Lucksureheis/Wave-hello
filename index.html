@@ -20,6 +20,7 @@ header span{font-size:13px;opacity:.9}
 .hero p.small{margin-top:14px;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6)}
 .btn{background:#FF6B5E;color:#fff;border:0;padding:13px 22px;border-radius:999px;font-weight:800;font-size:16px;cursor:pointer}
 .btn-teal{background:#0E7C7B}
+.btn-small{padding:9px 16px;font-size:14px}
 .wrap{max-width:900px;margin:0 auto;padding:0 16px 40px}
 .card{background:#fff;border-radius:16px;padding:18px;margin-top:16px;box-shadow:0 6px 20px rgba(16,42,42,.08)}
 .empty{text-align:center;padding:36px 16px}
@@ -34,11 +35,23 @@ header span{font-size:13px;opacity:.9}
 .price{color:#0E7C7B;font-weight:800;margin-top:10px;font-size:18px}
 label{display:block;font-weight:700;margin:14px 0 6px;font-size:14px}
 input,textarea{width:100%;padding:12px;border:1px solid #d8cdb8;border-radius:10px;background:#fffdf8;font-size:16px}
+input[type="checkbox"]{width:auto;margin-right:8px}
+.checkRow{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:14px;font-weight:600;line-height:1.4}
+.checkRow input{width:18px;height:18px;margin:0}
 small{color:#6b7f7f}
 footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-height:1.5}
 .hidden{display:none}
 #previewImg{width:100%;border-radius:12px;margin-top:10px;display:none}
 .pricingBox{background:#F5E8D3;border-radius:12px;padding:12px;font-weight:700;line-height:1.5}
+#buyMsg{background:#0E7C7B;color:#fff;padding:14px;border-radius:12px;margin-top:14px;font-weight:700;text-align:center;display:none}
+.chatBox{border-top:1px solid #e8dcc8;margin-top:14px;padding-top:12px}
+.chatBox h4{font-size:15px;margin-bottom:8px}
+.chatThread{background:#F5E8D3;border-radius:12px;padding:10px;max-height:160px;overflow-y:auto}
+.chatMsg{background:#fff;border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:14px;line-height:1.4}
+.chatMsg.buyer{background:#0E7C7B;color:#fff;margin-left:20px}
+.chatMsg.seller{background:#fff;color:#102A2A;margin-right:20px}
+.chatRow{display:flex;gap:8px;margin-top:8px}
+.chatRow input{flex:1}
 </style>
 </head>
 <body>
@@ -57,6 +70,7 @@ footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-hei
 <button class="btn" onclick="showTab('list',document.querySelectorAll('.tab')[1])">List an item — it's free</button>
 </div>
 <div class="wrap">
+<div id="buyMsg"></div>
 <div class="card empty" id="emptyBox">
 <h2>No listings yet</h2>
 <p>Be the first to list something.<br>Your real listings will show here when someone lists.</p>
@@ -72,9 +86,9 @@ footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-hei
 <h2>List an item</h2>
 <div class="pricingBox">First 5 listings free. After that, it costs 75 cents to list, and 75 cents after it's sold. Still cheaper than Trade Me.</div>
 <label>Title</label>
-<input id="title" placeholder="e.g. Sunglasses">
+<input id="title" placeholder="e.g. Shades">
 <label>Price (NZD $)</label>
-<input id="price" type="number" placeholder="e.g. 20">
+<input id="price" type="number" placeholder="e.g. 10">
 <label>Description</label>
 <textarea id="desc" rows="4" placeholder="Condition, size, pickup area..."></textarea>
 <label>Picture of item</label>
@@ -119,15 +133,59 @@ reader.readAsDataURL(file);
 function connectBank(){
 document.getElementById('listMsg').textContent="Connected — you can now publish your listing.";
 }
+function getListings(){
+try{ return JSON.parse(localStorage.getItem("wavehello_listings")||"[]"); }catch(e){ return []; }
+}
+function saveListings(list){
+try{ localStorage.setItem("wavehello_listings",JSON.stringify(list)); }catch(e){}
+}
+function buyNow(index){
+var saved=getListings();
+var item=saved[index];
+var check=document.getElementById('agree-'+index);
+var m=document.getElementById('buyMsg');
+if(!check || !check.checked){
+m.style.display='block';
+m.textContent="Please tick the checkbox to agree first.";
+m.scrollIntoView({behavior:'smooth',block:'center'});
+return;
+}
+m.style.display='block';
+m.textContent="Thanks! You want "+item.title+" for $"+item.price+" NZD. The seller will be in touch to arrange pickup and payment.";
+m.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function sendChat(index){
+var saved=getListings();
+var item=saved[index];
+var input=document.getElementById('chatInput-'+index);
+var text=input.value.trim();
+if(!text) return;
+if(!item.chats) item.chats=[];
+item.chats.push({who:'buyer',text:text});
+item.chats.push({who:'seller',text:"Thanks for messaging! I'll get back to you soon to arrange pickup."});
+saved[index]=item;
+saveListings(saved);
+input.value='';
+loadListings();
+}
 function loadListings(){
-var saved=[];
-try{ saved=JSON.parse(localStorage.getItem("wavehello_listings")||"[]"); }catch(e){ saved=[]; }
+var saved=getListings();
 var grid=document.getElementById('listingsGrid'); grid.innerHTML="";
 if(saved.length>0){ document.getElementById('emptyBox').style.display='none'; }
-saved.forEach(function(item){
+saved.forEach(function(item,idx){
 var div=document.createElement('div'); div.className='listing';
 var imgHtml=item.pic ? '<img src="'+item.pic+'">' : '';
-div.innerHTML=imgHtml+'<h3>'+item.title+'</h3><p>'+item.desc+'</p><div class="price">$'+item.price+' NZD</div>';
+var chatsHtml="";
+var chats=item.chats || [{who:'seller',text:"Hi! This is still available - happy to arrange pickup in Tāmaki Makaurau."}];
+chats.forEach(function(c){
+var cls=c.who==='buyer' ? 'chatMsg buyer' : 'chatMsg seller';
+var who=c.who==='buyer' ? 'You: ' : 'Seller: ';
+chatsHtml+='<div class="'+cls+'"><b>'+who+'</b>'+c.text+'</div>';
+});
+div.innerHTML=imgHtml+'<h3>'+item.title+'</h3><p>'+item.desc+'</p><div class="price">$'+item.price+' NZD</div>'+
+'<label class="checkRow"><input type="checkbox" id="agree-'+idx+'"> I agree to arrange pickup and payment with the seller</label>'+
+'<br><button class="btn btn-teal" onclick="buyNow('+idx+')">Buy now</button>'+
+'<div class="chatBox"><h4>Chat to seller</h4><div class="chatThread">'+chatsHtml+'</div><div class="chatRow"><input id="chatInput-'+idx+'" placeholder="Type a message to the seller..."><button class="btn btn-teal btn-small" onclick="sendChat('+idx+')">Send</button></div></div>';
 grid.appendChild(div);
 });
 }
@@ -140,13 +198,11 @@ document.getElementById('listMsg').textContent='Please add a title and price fir
 document.getElementById('title').scrollIntoView({behavior:'smooth',block:'center'});
 return;
 }
-var saved=[];
-try{ saved=JSON.parse(localStorage.getItem("wavehello_listings")||"[]"); }catch(e){ saved=[]; }
-saved.unshift({title:t,price:p,desc:d||'Listed on Wave Hello Shop',pic:currentPicData});
+var saved=getListings();
+saved.unshift({title:t,price:p,desc:d||'Listed on Wave Hello Shop',pic:currentPicData,chats:[{who:'seller',text:"Hi! This is still available - happy to arrange pickup in Tāmaki Makaurau."}]});
 try{
 localStorage.setItem("wavehello_listings",JSON.stringify(saved));
 }catch(e){
-// Photo still too big — save without photo so it still publishes
 saved[0].pic="";
 try{ localStorage.setItem("wavehello_listings",JSON.stringify(saved)); }catch(e2){}
 document.getElementById('listMsg').textContent='Your listing is live! (Photo was too big, so it saved without the photo — try a smaller photo next time)';
