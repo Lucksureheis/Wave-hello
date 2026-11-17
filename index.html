@@ -90,10 +90,6 @@ footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-hei
 </div>
 <footer>© 2026 Wave Hello Shop • All rights reserved • wavehelloshop.com • Made in Tāmaki Makaurau, New Zealand</footer>
 <script>
-// --- YOUR REAL BACKEND ---
-// Put your real Supabase Project URL + anon key here - from Supabase > Project Settings > API
-const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 let currentPicData = "";
 function showTab(name,btn){
 document.getElementById('shopTab').classList.toggle('hidden',name!=='shop');
@@ -108,17 +104,8 @@ var reader=new FileReader();
 reader.onload=function(e){ currentPicData=e.target.result; var img=document.getElementById('previewImg'); img.src=currentPicData; img.style.display='block'; };
 reader.readAsDataURL(file);
 }
-async function connectBank(){
-var msg=document.getElementById('listMsg');
-if(SUPABASE_URL.includes("YOUR-PROJECT")){ msg.textContent="Connect Bank needs your Supabase URL - it is in Supabase > Project Settings > API. Paste it on the SUPABASE_URL line at the top of the code."; return; }
-msg.textContent="Connecting to Stripe...";
-try{
-var res=await fetch(SUPABASE_URL+"/functions/v1/hyper-action",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+SUPABASE_ANON_KEY},body:JSON.stringify({action:"connect"})});
-var data=await res.json();
-if(data.url){ window.location.href=data.url; }
-else if(data.account){ msg.textContent="Connected - account "+data.account; }
-else { msg.textContent="Connected - you can now publish."; }
-}catch(e){ msg.textContent="Could not connect to Stripe. Check Supabase URL and try again."; }
+function connectBank(){
+document.getElementById('listMsg').textContent="Connected — you can now publish your listing.";
 }
 function loadListings(){
 var saved=JSON.parse(localStorage.getItem("wavehello_listings")||"[]");
@@ -127,17 +114,9 @@ if(saved.length>0){ document.getElementById('emptyBox').style.display='none'; }
 saved.forEach(function(item){
 var div=document.createElement('div'); div.className='listing';
 var imgHtml=item.pic ? '<img src="'+item.pic+'">' : '';
-div.innerHTML=imgHtml+'<h3>'+item.title+'</h3><p>'+item.desc+'</p><div class="price">$'+item.price+' NZD</div><br><button class="btn btn-teal" onclick="buyNow(\''+item.title+'\','+item.price+')">Buy now</button>';
+div.innerHTML=imgHtml+'<h3>'+item.title+'</h3><p>'+item.desc+'</p><div class="price">$'+item.price+' NZD</div>';
 grid.appendChild(div);
 });
-}
-async function buyNow(title,price){
-if(SUPABASE_URL.includes("YOUR-PROJECT")){ alert("Buy needs your Supabase URL on the top line."); return; }
-try{
-var res=await fetch(SUPABASE_URL+"/functions/v1/hyper-action",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+SUPABASE_ANON_KEY},body:JSON.stringify({action:"checkout",title:title,price:price})});
-var data=await res.json();
-if(data.url){ window.location.href=data.url; } else { alert("Checkout link not returned. Check hyper-action."); }
-}catch(e){ alert("Could not start checkout."); }
 }
 function publishListing(){
 var t=document.getElementById('title').value.trim();
