@@ -72,9 +72,9 @@ footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-hei
 <h2>List an item</h2>
 <div class="pricingBox">First 5 listings free. After that, it costs 75 cents to list, and 75 cents after it's sold. Still cheaper than Trade Me.</div>
 <label>Title</label>
-<input id="title" placeholder="e.g. Surfboard">
+<input id="title" placeholder="e.g. Sunglasses">
 <label>Price (NZD $)</label>
-<input id="price" type="number" placeholder="e.g. 50">
+<input id="price" type="number" placeholder="e.g. 20">
 <label>Description</label>
 <textarea id="desc" rows="4" placeholder="Condition, size, pickup area..."></textarea>
 <label>Picture of item</label>
@@ -101,14 +101,27 @@ window.scrollTo({top:0,behavior:'smooth'});
 function previewPic(input){
 var file=input.files[0]; if(!file) return;
 var reader=new FileReader();
-reader.onload=function(e){ currentPicData=e.target.result; var img=document.getElementById('previewImg'); img.src=currentPicData; img.style.display='block'; };
+reader.onload=function(e){
+var img=new Image();
+img.onload=function(){
+var max=800; var w=img.width, h=img.height;
+if(w>max){ h=h*max/w; w=max; }
+if(h>max){ w=w*max/h; h=max; }
+var c=document.createElement('canvas'); c.width=w; c.height=h;
+c.getContext('2d').drawImage(img,0,0,w,h);
+currentPicData=c.toDataURL('image/jpeg',0.7);
+var p=document.getElementById('previewImg'); p.src=currentPicData; p.style.display='block';
+};
+img.src=e.target.result;
+};
 reader.readAsDataURL(file);
 }
 function connectBank(){
 document.getElementById('listMsg').textContent="Connected — you can now publish your listing.";
 }
 function loadListings(){
-var saved=JSON.parse(localStorage.getItem("wavehello_listings")||"[]");
+var saved=[];
+try{ saved=JSON.parse(localStorage.getItem("wavehello_listings")||"[]"); }catch(e){ saved=[]; }
 var grid=document.getElementById('listingsGrid'); grid.innerHTML="";
 if(saved.length>0){ document.getElementById('emptyBox').style.display='none'; }
 saved.forEach(function(item){
@@ -122,10 +135,25 @@ function publishListing(){
 var t=document.getElementById('title').value.trim();
 var p=document.getElementById('price').value.trim();
 var d=document.getElementById('desc').value.trim();
-if(!t||!p){document.getElementById('listMsg').textContent='Please add a title and price.';return;}
-var saved=JSON.parse(localStorage.getItem("wavehello_listings")||"[]");
+if(!t||!p){
+document.getElementById('listMsg').textContent='Please add a title and price first — scroll up to fill them, then tap Publish again.';
+document.getElementById('title').scrollIntoView({behavior:'smooth',block:'center'});
+return;
+}
+var saved=[];
+try{ saved=JSON.parse(localStorage.getItem("wavehello_listings")||"[]"); }catch(e){ saved=[]; }
 saved.unshift({title:t,price:p,desc:d||'Listed on Wave Hello Shop',pic:currentPicData});
+try{
 localStorage.setItem("wavehello_listings",JSON.stringify(saved));
+}catch(e){
+// Photo still too big — save without photo so it still publishes
+saved[0].pic="";
+try{ localStorage.setItem("wavehello_listings",JSON.stringify(saved)); }catch(e2){}
+document.getElementById('listMsg').textContent='Your listing is live! (Photo was too big, so it saved without the photo — try a smaller photo next time)';
+loadListings();
+showTab('shop',document.querySelectorAll('.tab')[0]);
+return;
+}
 document.getElementById('title').value='';document.getElementById('price').value='';document.getElementById('desc').value='';document.getElementById('pic').value='';document.getElementById('previewImg').style.display='none';currentPicData="";
 document.getElementById('listMsg').textContent='Your listing is live!';
 loadListings();
