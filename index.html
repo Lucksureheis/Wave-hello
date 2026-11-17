@@ -35,6 +35,8 @@ header span{font-size:13px;opacity:.9}
 .listing p{color:#5a6f6f;line-height:1.4;font-size:14px}
 .listing img{width:100%;border-radius:12px;margin-bottom:10px;object-fit:cover}
 .price{color:#0E7C7B;font-weight:800;margin-top:10px;font-size:18px}
+.contact{margin-top:10px;font-size:14px;font-weight:600;line-height:1.4;word-break:break-all}
+.contact a{color:#0E7C7B}
 label{display:block;font-weight:700;margin:14px 0 6px;font-size:14px}
 input,textarea{width:100%;padding:12px;border:1px solid #d8cdb8;border-radius:10px;background:#fffdf8;font-size:16px}
 input[type="checkbox"]{width:auto;margin-right:8px}
@@ -57,6 +59,8 @@ footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-hei
 .removeBtn{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;border:0;background:#FF6B5E;color:#fff;font-weight:800;font-size:16px;cursor:pointer;line-height:1}
 .soldBadge{display:inline-block;background:#102A2A;color:#fff;padding:6px 12px;border-radius:999px;font-weight:800;font-size:13px;margin-top:10px}
 .actionRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.emailBtn{display:inline-block;margin-top:8px;background:#fff;border:1px solid #0E7C7B;color:#0E7C7B;padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none}
+.ownerNote{background:#FFF3CD;border-radius:10px;padding:10px;font-size:13px;line-height:1.4;margin-top:12px}
 </style>
 </head>
 <body>
@@ -96,6 +100,12 @@ footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-hei
 <input id="price" type="number" placeholder="e.g. 10">
 <label>Description</label>
 <textarea id="desc" rows="4" placeholder="Condition, size, pickup area..."></textarea>
+<label>Your Gmail address</label>
+<input id="gmail" type="email" placeholder="e.g. you@gmail.com">
+<p><small>Buyers will use this to email you. Chat will go to this Gmail too. It shows on your listing.</small></p>
+<label>Create a 4-digit PIN to manage this listing</label>
+<input id="pin" type="password" inputmode="numeric" maxlength="4" placeholder="e.g. 1234 - only you know this">
+<p><small>Only the person with this PIN can Cancel or Mark as sold. Don't share it. It does NOT show on your listing.</small></p>
 <label>Picture of item</label>
 <input type="file" id="pic" accept="image/*" onchange="previewPic(this)">
 <img id="previewImg">
@@ -144,6 +154,16 @@ try{ return JSON.parse(localStorage.getItem("wavehello_listings")||"[]"); }catch
 function saveListings(list){
 try{ localStorage.setItem("wavehello_listings",JSON.stringify(list)); }catch(e){}
 }
+function checkPin(item, actionName){
+if(!item.pin){
+return true;
+}
+var entered=prompt("Seller only — enter your 4-digit PIN to "+actionName+" this listing:");
+if(entered===null) return false;
+if(entered===item.pin) return true;
+alert("Wrong PIN — only the seller can "+actionName+" this listing.");
+return false;
+}
 function buyNow(index){
 var saved=getListings();
 var item=saved[index];
@@ -162,19 +182,25 @@ m.scrollIntoView({behavior:'smooth',block:'center'});
 }
 function markSold(index){
 var saved=getListings();
+var item=saved[index];
+if(!checkPin(item,"mark as sold")) return;
 saved[index].sold=true;
 saveListings(saved);
 loadListings();
 }
 function markAvailable(index){
 var saved=getListings();
+var item=saved[index];
+if(!checkPin(item,"mark as available")) return;
 saved[index].sold=false;
 saveListings(saved);
 loadListings();
 }
 function removeListing(index){
-if(!confirm("Cancel this listing? This will take it off the shop.")) return;
 var saved=getListings();
+var item=saved[index];
+if(!checkPin(item,"cancel")) return;
+if(!confirm("Cancel this listing? This will take it off the shop.")) return;
 saved.splice(index,1);
 saveListings(saved);
 loadListings();
@@ -187,11 +213,18 @@ var text=input.value.trim();
 if(!text) return;
 if(!item.chats) item.chats=[];
 item.chats.push({who:'buyer',text:text});
-item.chats.push({who:'seller',text:"Thanks for messaging! I'll get back to you soon to arrange pickup."});
 saved[index]=item;
 saveListings(saved);
 input.value='';
 loadListings();
+var gmail=item.gmail||"";
+if(gmail){
+var subject="Wave Hello Shop - "+item.title;
+var body="Hi, I saw your "+item.title+" for $"+item.price+" NZD on Wave Hello Shop.\n\nMy message: "+text+"\n\nPlease reply to me here.";
+window.location.href="mailto:"+gmail+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+} else {
+alert("This old listing has no Gmail saved. Cancel it and relist with your Gmail so chat can go to Gmail.");
+}
 }
 function loadListings(){
 var saved=getListings();
@@ -200,6 +233,8 @@ if(saved.length>0){ document.getElementById('emptyBox').style.display='none'; } 
 saved.forEach(function(item,idx){
 var div=document.createElement('div'); div.className='listing'+(item.sold?' sold':'');
 var imgHtml=item.pic ? '<img src="'+item.pic+'">' : '';
+var gmail=item.gmail||"";
+var gmailHtml=gmail ? '<div class="contact">Contact: <a href="mailto:'+gmail+'?subject='+encodeURIComponent('Wave Hello Shop - '+item.title)+'">'+gmail+'</a></div><a class="emailBtn" href="mailto:'+gmail+'?subject='+encodeURIComponent('Wave Hello Shop - '+item.title)+'&body='+encodeURIComponent('Hi, I saw your '+item.title+' for $'+item.price+' NZD on Wave Hello Shop. Is it still available?')+'">Email seller</a>' : '<div class="contact" style="color:#FF6B5E">No Gmail on this listing — cancel and relist with Gmail</div>';
 var chatsHtml="";
 var chats=item.chats || [{who:'seller',text:"Hi! This is still available - happy to arrange pickup in Tāmaki Makaurau."}];
 chats.forEach(function(c){
@@ -210,10 +245,12 @@ chatsHtml+='<div class="'+cls+'"><b>'+who+'</b>'+c.text+'</div>';
 var soldHtml=item.sold ? '<div><span class="soldBadge">SOLD</span></div>' : '';
 var buyBtn=item.sold ? '<button class="btn btn-grey" disabled>Sold</button>' : '<button class="btn btn-teal" onclick="buyNow('+idx+')">Buy now</button>';
 var soldBtn=item.sold ? '<button class="btn btn-grey btn-small" onclick="markAvailable('+idx+')">Mark as available</button>' : '<button class="btn btn-small" style="background:#102A2A" onclick="markSold('+idx+')">Mark as sold</button>';
-div.innerHTML='<button class="removeBtn" title="Cancel / Remove listing" onclick="removeListing('+idx+')">✕</button>'+imgHtml+'<h3>'+item.title+'</h3><p>'+item.desc+'</p><div class="price">$'+item.price+' NZD</div>'+soldHtml+
+var chatEmailHtml=gmail ? '<p style="margin-bottom:8px;font-size:13px">Chat goes to Gmail: <a href="mailto:'+gmail+'">'+gmail+'</a></p>' : '<p style="margin-bottom:8px;font-size:13px;color:#FF6B5E">Chat needs Gmail — relist with Gmail to use this</p>';
+div.innerHTML='<button class="removeBtn" title="Seller only - Cancel / Remove listing" onclick="removeListing('+idx+')">✕</button>'+imgHtml+'<h3>'+item.title+'</h3><p>'+item.desc+'</p><div class="price">$'+item.price+' NZD</div>'+gmailHtml+soldHtml+
 '<label class="checkRow"><input type="checkbox" id="agree-'+idx+'"> I agree to arrange pickup and payment with the seller</label>'+
 '<div class="actionRow">'+buyBtn+soldBtn+'</div>'+
-'<div class="chatBox"><h4>Chat to seller</h4><div class="chatThread">'+chatsHtml+'</div><div class="chatRow"><input id="chatInput-'+idx+'" placeholder="Type a message to the seller..."><button class="btn btn-teal btn-small" onclick="sendChat('+idx+')">Send</button></div></div>';
+'<div class="ownerNote">🔒 Seller only: Cancel and Mark as sold need the seller PIN. Buyers can still Buy now, Chat and Email seller.</div>'+
+'<div class="chatBox"><h4>Chat to seller</h4>'+chatEmailHtml+'<div class="chatThread">'+chatsHtml+'</div><div class="chatRow"><input id="chatInput-'+idx+'" placeholder="Type a message - it will go to Gmail..."><button class="btn btn-teal btn-small" onclick="sendChat('+idx+')">Send to Gmail</button></div></div>';
 grid.appendChild(div);
 });
 }
@@ -221,13 +258,25 @@ function publishListing(){
 var t=document.getElementById('title').value.trim();
 var p=document.getElementById('price').value.trim();
 var d=document.getElementById('desc').value.trim();
+var g=document.getElementById('gmail').value.trim();
+var pin=document.getElementById('pin').value.trim();
 if(!t||!p){
 document.getElementById('listMsg').textContent='Please add a title and price first — scroll up to fill them, then tap Publish again.';
 document.getElementById('title').scrollIntoView({behavior:'smooth',block:'center'});
 return;
 }
+if(!g || g.indexOf('@')===-1 || g.indexOf('@gmail.com')===-1){
+document.getElementById('listMsg').textContent='Please add your Gmail address — it needs to end in @gmail.com so buyers can email you.';
+document.getElementById('gmail').scrollIntoView({behavior:'smooth',block:'center'});
+return;
+}
+if(!pin || pin.length!==4 || isNaN(Number(pin))){
+document.getElementById('listMsg').textContent='Please make a 4-digit PIN — e.g. 1234. Only you will know it, it protects your listing from being cancelled by anyone else.';
+document.getElementById('pin').scrollIntoView({behavior:'smooth',block:'center'});
+return;
+}
 var saved=getListings();
-saved.unshift({title:t,price:p,desc:d||'Listed on Wave Hello Shop',pic:currentPicData,sold:false,chats:[{who:'seller',text:"Hi! This is still available - happy to arrange pickup in Tāmaki Makaurau."}]});
+saved.unshift({title:t,price:p,desc:d||'Listed on Wave Hello Shop',gmail:g,pin:pin,pic:currentPicData,sold:false,chats:[{who:'seller',text:"Hi! This is still available - happy to arrange pickup in Tāmaki Makaurau."}]});
 try{
 localStorage.setItem("wavehello_listings",JSON.stringify(saved));
 }catch(e){
@@ -238,7 +287,7 @@ loadListings();
 showTab('shop',document.querySelectorAll('.tab')[0]);
 return;
 }
-document.getElementById('title').value='';document.getElementById('price').value='';document.getElementById('desc').value='';document.getElementById('pic').value='';document.getElementById('previewImg').style.display='none';currentPicData="";
+document.getElementById('title').value='';document.getElementById('price').value='';document.getElementById('desc').value='';document.getElementById('gmail').value='';document.getElementById('pin').value='';document.getElementById('pic').value='';document.getElementById('previewImg').style.display='none';currentPicData="";
 document.getElementById('listMsg').textContent='Your listing is live!';
 loadListings();
 showTab('shop',document.querySelectorAll('.tab')[0]);
