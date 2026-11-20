@@ -53,7 +53,6 @@ footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-hei
 .chatBox h4{font-size:15px;margin-bottom:8px}
 .chatThread{background:#F5E8D3;border-radius:12px;padding:10px;max-height:160px;overflow-y:auto}
 .chatMsg{background:#fff;border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:14px;line-height:1.4}
-.chatMsg.buyer{background:#0E7C7B;color:#fff;margin-left:20px}
 .chatMsg.seller{background:#fff;color:#102A2A;margin-right:20px}
 .chatRow{display:flex;gap:8px;margin-top:8px}
 .chatRow input{flex:1}
@@ -96,25 +95,24 @@ footer{text-align:center;padding:28px 12px;color:#6b7f7f;font-size:13px;line-hei
 <h2>List an item</h2>
 <div class="pricingBox">First 5 listings free. After that, it costs 75 cents to list, and 75 cents after it's sold. Still cheaper than Trade Me.</div>
 <label>Title</label>
-<input id="title" placeholder="e.g. Shades">
+<input id="title" placeholder="e.g. Shades" autocomplete="off">
 <label>Price (NZD $)</label>
-<input id="price" type="number" placeholder="e.g. 10">
+<input id="price" type="number" placeholder="e.g. 10" autocomplete="off">
 <label>Description</label>
 <textarea id="desc" rows="4" placeholder="Condition, size, pickup area..."></textarea>
 <label>Your Gmail address</label>
-<input id="gmail" type="email" placeholder="e.g. you@gmail.com">
+<input id="gmail" type="email" placeholder="e.g. you@gmail.com" autocomplete="off">
 <p><small>Buyers will use this to email you. Chat will go to this Gmail too. It shows on your listing.</small></p>
 <label>Create a 4-digit PIN to manage this listing</label>
-<input id="pin" type="password" inputmode="numeric" maxlength="4" placeholder="e.g. 1234 - only you know this">
+<input id="pin" type="text" inputmode="numeric" maxlength="4" placeholder="e.g. 1234 - only you know this" autocomplete="off">
 <p><small>Only the person with this PIN can Cancel or Mark as sold. Don't share it. It does NOT show on your listing.</small></p>
 <label>Picture of item</label>
 <input type="file" id="pic" accept="image/*" onchange="previewPic(this)">
 <img id="previewImg">
 <br><br>
-<button class="btn btn-teal" onclick="connectBank()">Connect Bank</button>
-<button class="btn" style="margin-left:8px" onclick="publishListing()">Publish listing</button>
+<button class="btn" onclick="publishListing()">Publish listing</button>
 <p id="listMsg" style="margin-top:12px;color:#0E7C7B;font-weight:700"></p>
-<p><small>Connect your bank once to get paid. This is done securely with Stripe.</small></p>
+<p><small>Buyers will contact you by Gmail to arrange pickup and payment. You can accept bank transfer or cash on pickup.</small></p>
 </div>
 </div>
 </div>
@@ -151,9 +149,6 @@ img.src=e.target.result;
 };
 reader.readAsDataURL(file);
 }
-function connectBank(){
-document.getElementById('listMsg').textContent="To get paid by card, connect your Stripe account in your Stripe dashboard. For now buyers will contact you by Gmail to arrange payment.";
-}
 function checkPin(item, actionName){
 if(!item.pin) return true;
 var entered=prompt("Seller only — enter your 4-digit PIN to "+actionName+" this listing:");
@@ -175,13 +170,13 @@ return;
 }
 if(item.seller_stripe_account_id){
 try{
-m.style.display='block'; m.textContent="Going to Stripe checkout...";
+m.style.display='block'; m.textContent="Going to card checkout...";
 var res=await fetch(EDGE_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_KEY,'apikey':SUPABASE_KEY},body:JSON.stringify({title:item.title,price:Number(item.price),type:'sale',seller_stripe_account_id:item.seller_stripe_account_id})});
 var data=await res.json();
 if(data.url){ window.location.href=data.url; return; }
-throw new Error(data.error||"Stripe error");
+throw new Error(data.error||"Card error");
 }catch(e){
-m.style.display='block'; m.textContent="Stripe checkout not ready yet: "+e.message+" — please email the seller to arrange payment.";
+m.style.display='block'; m.textContent="Card checkout not ready yet: "+e.message+" — please email the seller to arrange payment.";
 return;
 }
 }
@@ -233,7 +228,7 @@ var res=await sb.from('listings').select('*').order('created_at',{ascending:fals
 if(res.error) throw res.error;
 currentListings=res.data||[];
 }catch(e){
-grid.innerHTML="<div class='card'>Could not load shared listings: "+e.message+"</div>";
+grid.innerHTML="<div class='card'>Could not load listings: "+e.message+"</div>";
 return;
 }
 grid.innerHTML="";
@@ -251,7 +246,7 @@ var chatEmailHtml=gmail ? '<p style="margin-bottom:8px;font-size:13px">Chat goes
 div.innerHTML='<button class="removeBtn" title="Seller only - Cancel" onclick="removeListing('+idx+')">✕</button>'+imgHtml+'<h3>'+item.title+'</h3><p>'+item.description+'</p><div class="price">$'+item.price+' NZD</div>'+gmailHtml+soldHtml+
 '<label class="checkRow"><input type="checkbox" id="agree-'+idx+'"> I agree to arrange pickup and payment with the seller</label>'+
 '<div class="actionRow">'+buyBtn+soldBtn+'</div>'+
-'<div class="ownerNote">🔒 Seller only: Cancel and Mark as sold need the seller PIN. Buyers can still Buy now, Chat and Email seller.</div>'+
+'<div class="ownerNote">Seller only: Cancel and Mark as sold need the seller PIN. Buyers can still Buy now, Chat and Email seller.</div>'+
 '<div class="chatBox"><h4>Chat to seller</h4>'+chatEmailHtml+'<div class="chatThread">'+chatsHtml+'</div><div class="chatRow"><input id="chatInput-'+idx+'" placeholder="Type a message - it will go to Gmail..."><button class="btn btn-teal btn-small" onclick="sendChat('+idx+')">Send to Gmail</button></div></div>';
 grid.appendChild(div);
 });
@@ -295,9 +290,9 @@ localStorage.setItem('wavehello_pending',JSON.stringify(newItem));
 window.location.href=data.url;
 return;
 }
-throw new Error(data.error||"Stripe error");
+throw new Error(data.error||"Card error");
 }catch(e){
-document.getElementById('listMsg').textContent='Listing fee checkout failed: '+e.message;
+document.getElementById('listMsg').textContent='Listing fee payment failed: '+e.message;
 return;
 }
 }
